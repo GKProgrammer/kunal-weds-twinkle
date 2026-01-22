@@ -1291,19 +1291,27 @@ Our families are excited that you are able to join us in celebrating what we hop
 document.addEventListener("DOMContentLoaded", function() {
     const lanterns = document.querySelectorAll('.lantern');
 
-    window.addEventListener('scroll', function() {
+    // 1. Define the function so we can use it multiple times
+    function updateLanterns() {
         const scrolled = window.scrollY;
 
         lanterns.forEach(function(lantern) {
-            // Get the speed from the data attribute, default to 0.5 if missing
-            const speed = lantern.getAttribute('data-speed') || 0.5;
+            // Get speed, default to 0.5
+            const speed = parseFloat(lantern.getAttribute('data-speed')) || 0.5;
             
-            // Move the lantern. Adjust the '-' to '+' if you want them to move DOWN with scroll
+            // Calculate position
             const yPos = -(scrolled * speed); 
             
+            // Apply transform
             lantern.style.transform = `translateY(${yPos}px)`;
         });
-    });
+    }
+
+    // 2. Run it IMMEDIATELY on load (Fixes the "waiting for interaction" bug)
+    updateLanterns();
+
+    // 3. Run it whenever the user scrolls
+    window.addEventListener('scroll', updateLanterns);
 });
 </script>
 <script>
@@ -1466,4 +1474,5 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 </body></html>
+
 
